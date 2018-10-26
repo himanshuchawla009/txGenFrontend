@@ -1,0 +1,102 @@
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.font-white {
+    color: #fff;
+}
+
+.font-hero {
+    color: #0da9ff;
+}
+
+.primary {
+    color: $primary;
+}
+
+.font-white-translucent {
+    color: $white-translucent;
+}
+
+.heading-hero {}
+
+.paragraph-hero {}
+
+.heading-main {}
+
+.paragraph-main {}
+
+.font-hero {
+    font-weight: 600;
+    line-height: 1.2;
+    font-size: 25px;
+    letter-spacing: 4px;
+}
+
+.primarycolor {
+    color: $primary-color;
+    &.white{
+        color: rgba(255,255,255,0.9);
+    }
+}
+
+.sub-heading {
+    font-size: 30px;
+    color: $black;
+    font-size: 3.4rem;
+    font-weight: bold;
+
+
+
+span {
+    font-weight: 600;
+}
+
+&.white{
+    color:#fff;
+    span{
+
+    }
+}
+
+&.sub-heading-small {
+    font-size: 22px;
+    @media screen and (max-width: 991px) {
+        margin-top: 30px;
+    }
+}
+}
+
+
+
+.sub-paragraph {
+    font-weight: bold;
+    // text-align: center;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 2;
+    color: $black-80;
+    &.white{
+        color: rgba(255,255,255,1);
+    }
+}
+
+.center-paragraph {
+    text-align: center;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.67;
+    margin-bottom: 25px;
+}
+
+.link-style {
+    text-decoration: underline;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: $primary-color;
+    font-size: 16px;
+    &:hover {
+        color: #000-impure;
+    }
+}

@@ -1,0 +1,27 @@
+
+@import '_colors';
+@import '_fonts';
+
+@media (min-width: 768px) {
+  body {
+    background-color: $grey-background;
+  }
+}
+.wrapper-box{
+  background: white;
+    padding: 36px;
+    border-radius: 6px;
+      box-shadow: 0 1px 15px rgba(15, 32, 40, 0.05);
+      margin-top: 120px;
+      &.wrapper-bottom{
+        margin-top: 30px;
+
+      }
+}
+
+.width-mid {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  padding: 50px;
+}

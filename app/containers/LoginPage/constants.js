@@ -1,0 +1,6 @@
+export const LOGIN_USER = 'LoginPage/LOGIN_USER';
+export const LOGIN_USER_SUCCESS = 'LoginPage/LOGIN_USER_SUCCESS';
+export const LOGIN_USER_ERROR = 'LoginPage/LOGIN_USER_ERROR';
+export const LOGIN_USER_ERROR_MESSAGE_REMOVE = 'LoginPage/LOGIN_USER_ERROR_MESSAGE_REMOVE';
+export const EMAIL_VERIFIED = 'LoginPage/EMAIL_VERIFIED';
+export const EMAIL_STATE_CLEAR = 'LoginPage/EMAIL_STATE_CLEAR';

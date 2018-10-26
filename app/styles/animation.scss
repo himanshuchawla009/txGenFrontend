@@ -1,0 +1,19 @@
+
+.img-box-mix{
+  img{
+    display: inline-block;
+    margin-right:12px;
+    height: 150px;
+    @media(max-width: 991px){
+      height: 40px;
+    }
+  }
+
+}
+
+// *{
+//     background: red;
+//     color:red;
+//     border:2px solid red;
+// }
+

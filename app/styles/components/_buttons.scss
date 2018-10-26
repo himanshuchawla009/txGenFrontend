@@ -1,0 +1,28 @@
+.btn {
+    i {
+        margin-right: 3%;
+    }
+    display: block;
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 18px;
+    text-align: center;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(255, 190, 211, 0.8);
+    border-radius: 4px;
+    background-image: linear-gradient(to right, lighten($primary-color, 10%) 0%, $primary-color  100%);
+    border:none;
+    cursor: pointer;
+    &:hover{
+      box-shadow: 0 0 19px rgba(255, 190, 211, 1);
+    }
+    &.btn-auth{
+          width: 100%;
+    }
+    padding: 15px 20px;
+    transition: all 150ms ease-in-out;
+    text-shadow: 0px 0px 0px #fd9e18;
+
+
+
+}
