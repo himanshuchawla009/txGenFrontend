@@ -27,7 +27,6 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
     super(props);
     this.state = {
       confirmContri: false,
-      usdEurContributionConfirm: false,
       curr: 'Ethereum',
       btcToDollar: 7500,
       ethToDollar: 600,
@@ -201,10 +200,6 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
       console.log('dollar :' , this.state.dollarsInvested);
         if (parseInt(this.state.dollarsInvested) < this.state.minInvest) {
           this.notifyMinimum();
-        } else if (this.state.curr == 'Dollar' || this.state.curr == 'Euro') {
-          this.setState({
-            usdEurContributionConfirm : true
-          })
         }
       }
   }
@@ -334,21 +329,6 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
         tokensWithBonus: currencyQuantity * this.state.tokensPerEther + currencyQuantity * this.state.tokensPerEther * 0.01 * this.state.bonus,
         dollars: e.target.value,
       });
-    } else if (this.state.curr === 'Dollar') {
-      this.setState({
-        currencyQuantity,
-        dollarsInvested: currencyQuantity,
-        tokens: currencyQuantity * this.state.tokensPerUsd,
-        tokensWithBonus: currencyQuantity * this.state.tokensPerUsd + currencyQuantity * this.state.tokensPerUsd * 0.01 * this.state.bonus,
-        dollars: e.target.value,
-      });
-    } else if (this.state.curr === 'Euro') {
-      this.setState({
-        currencyQuantity,
-        dollarsInvested: currencyQuantity * 1.16,
-        tokens: currencyQuantity * this.state.tokensPerEur,
-        tokensWithBonus: currencyQuantity * this.state.tokensPerEur + currencyQuantity * this.state.tokensPerEur * 0.01 * this.state.bonus,
-      });
     }
     document.getElementById('tokens').value = this.state.tokens;
   }
@@ -446,30 +426,6 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
       }
 
 
-    } else if (e.target.value === 'USD') {
-      let currencyQuantity = document.getElementById('amt');
-      this.setState({
-        valid: true,
-        validBlank: 'false',
-        curr: 'Dollar',
-        validWallet: true,
-        dollarsInvested: currencyQuantity.value,
-        currencyQuantity: currencyQuantity.value,
-        tokens: currencyQuantity.value * this.state.tokensPerUsd,
-        tokensWithBonus: currencyQuantity.value * this.state.tokensPerUsd + this.state.tokensPerUsd * currencyQuantity.value * 0.01 * this.state.bonus
-      })
-    } else if (e.target.value === 'EUR') {
-      let currencyQuantity = document.getElementById('amt');
-      this.setState({
-        valid: true,
-        validBlank: 'false',
-        curr: 'Euro',
-        validWallet: true,
-        dollarsInvested: currencyQuantity.value * 1.16,
-        currencyQuantity: currencyQuantity.value,
-        tokens: currencyQuantity.value * this.state.tokensPerEur,
-        tokensWithBonus: currencyQuantity.value * this.state.tokensPerEur + this.state.tokensPerEur * currencyQuantity.value * 0.01 * this.state.bonus
-      }) 
     }
   }
 
@@ -494,20 +450,6 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
          tokens: currencyQuant.value * this.state.tokensPerBitcoin,
          tokensWithBonus: this.state.tokensPerBitcoin * currencyQuant.value + this.state.tokensPerBitcoin * currencyQuant.value * 0.01 * this.state.bonus
       });
-     } else if (this.state.curr == 'Dollar') {
-       this.setState({
-         currencyQuantity: currencyQuant.value,
-         dollarsInvested: currencyQuant.value,
-         tokens: currencyQuant.value * this.state.tokensPerUsd,
-         tokensWithBonus: this.state.tokensPerUsd * currencyQuant.value + this.state.tokensPerUsd * currencyQuant.value * 0.01 * this.state.bonus
-       })
-     } else if (this.state.curr == 'Euro') {
-       this.setState({
-         currencyQuantity: currencyQuant.value,
-         dollarsInvested: currencyQuant.value * 1.16,
-         tokens: currencyQuant.value * this.state.tokensPerEur,
-         tokensWithBonus: this.state.tokensPerEur * currencyQuant.value + this.state.tokensPerEur * currencyQuant.value * 0.01 * this.state.bonus
-       })
      }
    }
   //  updatetime() {
@@ -582,23 +524,6 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
         />
       );
     }
-    if (this.state.usdEurContributionConfirm) {
-      return (
-        <div id="content" className="ui-content ui-content-aside-overlay">
-          <div className="ui-content-body">
-          <div className="ui-container container-fluid">
-            <div className="row">
-              <div className="col-sm-12">
-                <div className="alert alert-success text-center">
-                  <h4>Contribution in USD and EUR is temporarily disabled.<br/></h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      )
-    }
     console.log(this.state);
     return (
       <div id="content" className="ui-content ui-content-aside-overlay">
@@ -627,14 +552,12 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
                             <select id="currency" name="currency" onChange={this.CurrencyChange} className="form-input" required>
                               <option value="ETH">ETH</option>
                               <option value="BTC">BTC</option>
-                              <option value="USD">USD</option>
-                              <option value="EUR">EUR</option>
                             </select>
                           </span>
-                          <span id="currency-tokens" style={{float: 'right'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.tokensPerEther.toFixed(2) : (this.state.curr === 'Bitcoin') ? (this.state.tokensPerBitcoin).toFixed(2) : (this.state.curr === 'Dollar') ? (this.state.tokensPerUsd) : (this.state.tokensPerEur).toFixed(2)} SOLAR91</span>
+                          <span id="currency-tokens" style={{float: 'right'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.tokensPerEther.toFixed(2) : (this.state.curr === 'Bitcoin') ? (this.state.tokensPerBitcoin).toFixed(2):null } SOLAR91</span>
                           {
                             this.state.curr !== 'Dollar' ?
-                            <span style={{float: 'left'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.ethToDollar.toFixed(2) : (this.state.curr === 'Bitcoin') ? (this.state.btcToDollar).toFixed(2) : (this.state.curr === 'Euro') ? (this.state.eurToDollar) : null} $</span>
+                            <span style={{float: 'left'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.ethToDollar.toFixed(2) : (this.state.curr === 'Bitcoin') ? (this.state.btcToDollar).toFixed(2) : null} $</span>
                             : null
                           }
                           <br/>
@@ -663,7 +586,7 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
                             this.state.curr == 'Ethereum' || this.state.curr == 'Bitcoin' ? 
                             <div className="form-group">
                             <label htmlFor="sendingAddress" className="form-label">Address of {(this.state.curr == 'Ethereum') ? 'ETH' : 'BTC'} wallet you are sending from?</label>
-                            <input id="fromAddress" onChange={this.validator} type="text" value={this.state.fromAddress} className="form-input form-control text-left" required/>
+                            <input id="fromAddress" onChange={this.validator} type="text" value={this.state.fromAddress} className="form-input form-control text-left" disabled required/>
                           </div> : ''
                           }
 

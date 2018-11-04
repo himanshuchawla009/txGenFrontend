@@ -13,6 +13,7 @@ import {
   FAIL_REQUEST,
   CLEAR_STATE,
   CREATE_REQUEST,
+  GET_REQUEST,
 } from './constants';
 
 const initialState = fromJS({
@@ -31,7 +32,8 @@ function transferManagerReducer(state = initialState, action) {
       return state;
     case SUCCESS_GET_REQUEST:
       return state
-        .set('allRequests', action.data);
+        .set('allRequests', action.data.data)
+        .set('nextPage', action.data.nextPage);
     case CREATE_REQUEST:
       return state
         .set('requestData', action.data);
@@ -51,6 +53,9 @@ function transferManagerReducer(state = initialState, action) {
         .set('failRequests', false)
         .set('successRequest', false)
         .set('failGettingRequests', false);
+    case GET_REQUEST:
+        return state
+          .set('page', action.data);
     default:
       return state;
   }

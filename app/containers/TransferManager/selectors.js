@@ -29,9 +29,23 @@ const makeSelectAllRequests = () => createSelector(
   selectTransferManagerDomain,
   (substate) => substate.get('allRequests')
 );
+
+const makeSelectNextPage = () => createSelector(
+  selectTransferManagerDomain,
+  (substate) => substate.get('nextPage')
+);
+
+const makeSelectPage = () => createSelector(
+  selectTransferManagerDomain,
+  (substate) => substate.get('page')
+);
+
+
 export default makeSelectTransferManager;
 export {
   selectTransferManagerDomain,
   makeSelectCreateRequest,
   makeSelectAllRequests,
+  makeSelectNextPage,
+  makeSelectPage
 };

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createRequest } from '../containers/TransferManager/actions';
-// const BaseUrl = 'http://139.59.88.76:5010/api/v1/';
-const BaseUrl = 'http://127.0.0.1:5010/api/v1/';
+const BaseUrl = 'http://139.59.88.76:5010/api/v1/';
+// const BaseUrl = 'http://127.0.0.1:5010/api/v1/';
 // const BaseUrl = 'https://tokensaleapis.zineum.io/api/v1/';
 
 export default {
@@ -70,8 +70,8 @@ export default {
     getMessages: (headers, ticketId) =>
       axios.get(`${BaseUrl}ticket/messages/${ticketId}`, headers)
         .then((res) => res.data).catch((err) => err.response.data),
-    getRequests: (headers) =>
-      axios.get(`${BaseUrl}user/requests`, headers)
+    getRequests: (page, headers) =>
+      axios.get(`${BaseUrl}user/requests?page=${page}`, headers)
         .then((res) => res.data).catch((err) => err.response.data),
 
     createRequest: (headers, data) =>

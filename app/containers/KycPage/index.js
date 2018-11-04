@@ -249,7 +249,7 @@ export class KycPage extends React.PureComponent { // eslint-disable-line react/
       </div>
       )
     }
-    if(!this.props.userInfo.userInfo.kycStatus == 'ACCEPTED'){
+    if(this.props.userInfo.userInfo.kycStatus == 'ACCEPTED'){
       this.props.kycActive();
       return (
         <div id="content" className="ui-content ui-content-aside-overlay">

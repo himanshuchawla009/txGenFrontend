@@ -30,18 +30,7 @@ export class ProfilePage extends React.PureComponent { // eslint-disable-line re
         dob : '',
         gender : '',
         phone : '',
-        telegram : '',
-        twitter : '',
-        creative: '',
-        youtube: '',
-        facebook: '',
-        reddit: '',
-        linkedIn: '',
-        translation: '',
-        signature: '',
-        loginAlert : '',
-        ethAddress: '',
-        valid : true
+        loginAlert : ''
     }
 
     this.handleInput = this.handleInput.bind(this);
@@ -53,19 +42,6 @@ export class ProfilePage extends React.PureComponent { // eslint-disable-line re
       this.setState({
         [e.target.name] : e.target.checked
       })
-    }else if(e.target.name == 'ethAddress'){
-      this.setState({
-        [e.target.name]: e.target.value
-      })
-      if(e.target.value.match(/^0x[a-fA-F0-9]{40}$/) || e.target.value == ''){
-        this.setState({
-          valid: true
-        })
-      }else{
-        this.setState({
-          valid: false
-        })
-      }
     }else{
       this.setState({
         [e.target.name] : e.target.value
@@ -74,25 +50,14 @@ export class ProfilePage extends React.PureComponent { // eslint-disable-line re
   }
 
   componentWillMount(){
-    const { email, fullName, dob, gender, phone, telegram, twitter, creative, youtube, facebook, reddit, linkedIn, translation, signature, loginAlert, ethAddress } = this.props.userInfo.userInfo;
+    const { email, fullName, dob, gender, phone, loginAlert } = this.props.userInfo.userInfo;
     this.state = {
       email,
       fullName,
       dob,
       gender,
       phone,
-      telegram,
-      twitter,
-      creative,
-      youtube,
-      facebook,
-      reddit,
-      linkedIn,
-      translation,
-      signature,
-      loginAlert,
-      ethAddress,
-      valid: true
+      loginAlert
     }
   }
 
@@ -100,11 +65,9 @@ export class ProfilePage extends React.PureComponent { // eslint-disable-line re
     e.preventDefault()
     if(!isValidNumber(this.state.phone)){
       toast.error('Phone number is invalid');
-    }else if(this.state.valid){
-      const { fullName, dob, gender, phone, telegram, twitter, creative, youtube, facebook, reddit, linkedIn, translation, signature, loginAlert, ethAddress } = this.state;
-      this.props.updateDetail({fullName, dob, gender, phone, telegram, twitter, creative, youtube, facebook, reddit, linkedIn, translation, signature, loginAlert,ethAddress});
-    }else{
-      toast.error('Please enter valid ETH Wallet address');
+    }else {
+      const { fullName, dob, gender, phone, loginAlert } = this.state;
+      this.props.updateDetail({fullName, dob, gender, phone, loginAlert });
     }
   }
 
@@ -118,7 +81,7 @@ export class ProfilePage extends React.PureComponent { // eslint-disable-line re
       }
     }
   }
-
+  
   render() {
     const { phone } = this.state;
     return (
@@ -145,7 +108,7 @@ export class ProfilePage extends React.PureComponent { // eslint-disable-line re
                 </div>
                 <div className="row form-group">
                   <div className="col-sm-3">
-                    <label htmlFor="fullName"><span style={{fontWeight:'500'}}>FULL NAME</span></label>
+                    <label htmlFor="fullName"><span style={{fontWeight:'500'}}>Full Name</span></label>
                   </div>
                   <div className="col-sm-9">
                     <input className="form-control" type="text" name="fullName" id="fullName"  value={this.state.fullName} onChange={this.handleInput}/>
@@ -184,96 +147,6 @@ export class ProfilePage extends React.PureComponent { // eslint-disable-line re
                         value={ phone }
                         onChange={ phone => this.setState({ phone }) }
                         error={ phone ? (isValidNumber(phone) ? undefined : 'Invalid phone number') : '' }/>
-                  </div>
-                </div>
-                {/* creative link */}
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="creative"><span style={{fontWeight:'500'}}>Creative Link</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="creative" id="creative" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" title="Enter Valid Creative link" placeholder="Creative link" onChange={this.handleInput} value={this.state.creative}/>
-                  </div>
-                </div>
-                {/* youtube link */}
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="youtube"><span style={{fontWeight:'500'}}>Youtube Link</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="youtube" id="youtube" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" title="Enter Valid Youtube link" placeholder="Youtube link" onChange={this.handleInput} value={this.state.youtube}/>
-                  </div>
-                </div>
-                {/* Telegram link */}
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="telegram"><span style={{fontWeight:'500'}}>Telegram Link</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="telegram" id="telegram" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" title="Enter Valid Telegram Profile link" placeholder="Telegram link" onChange={this.handleInput} value={this.state.telegram}/>
-                  </div>
-                </div>
-                {/* Twitter link */}
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="twitter"><span style={{fontWeight:'500'}}>Twitter Link</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="twitter" id="twitter" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" title="Enter Valid Twitter Profile link" placeholder="Twitter link" onChange={this.handleInput} value={this.state.twitter}/>
-                  </div>
-                </div>
-                {/* Facebook link */}
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="facebook"><span style={{fontWeight:'500'}}>Facebook Link</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="facebook" id="facebook" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" title="Enter Valid Facebook link" placeholder="Facebook link" onChange={this.handleInput} value={this.state.facebook}/>
-                  </div>
-                </div>
-                {/* Translation link */}
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="translation"><span style={{fontWeight:'500'}}>Translation Link</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="translation" id="translation" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" title="Enter Valid Translation link" placeholder="Translation link" onChange={this.handleInput} value={this.state.translation}/>
-                  </div>
-                </div>
-                {/* Reddit link */}
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="reddit"><span style={{fontWeight:'500'}}>Reddit Link</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="reddit" id="reddit" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" title="Enter Valid Reddit Profile link" placeholder="Reddit link" onChange={this.handleInput} value={this.state.reddit}/>
-                  </div>
-                </div>
-                {/* Linkedin link */}
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="linkedIn"><span style={{fontWeight:'500'}}>LinkedIn Link</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="linkedIn" id="linkedIn" pattern="^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$" title="Enter Valid LinkedIn Profile link" placeholder="LinkedIn link" onChange={this.handleInput} value={this.state.linkedIn}/>
-                  </div>
-                </div>
-                {/* Signature link */}
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="signature"><span style={{fontWeight:'500'}}>Signature Username</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="signature" id="signature" placeholder="Signature Username" onChange={this.handleInput} value={this.state.signature}/>
-                  </div>
-                </div>
-                <div className="row form-group">
-                  <div className="col-sm-3">
-                    <label htmlFor="ethAddress"><span style={{fontWeight:'500'}}>ETH Wallet Address</span></label>
-                  </div>
-                  <div className="col-sm-9">
-                    <input className="form-control" type="text" name="ethAddress" id="ethAddress" placeholder="Valid ETH wallet address" title="Please enter Valid eth address" value={this.state.ethAddress} onChange={this.handleInput}/>
-                    { !this.state.valid ? <p style={{color: '#f00'}}>Please enter Valid ETH address.</p> : '' }
                   </div>
                 </div>
                 <div className="row">

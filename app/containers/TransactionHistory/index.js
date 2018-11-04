@@ -51,7 +51,7 @@ export class TransactionHistory extends React.PureComponent { // eslint-disable-
           className: 'text-center'
         },
         {
-          Header: 'ZIN Coins',
+          Header: 'SOLAR91',
           accessor: 'tokens', // Custom cell components!
           className: 'text-right'
         },

@@ -39,9 +39,10 @@ export function failRequest() {
   };
 }
 
-export function getRequests() {
+export function getRequests(data) {
   return {
     type: GET_REQUEST,
+    data
   };
 }
 export function successGetRequests(data) {

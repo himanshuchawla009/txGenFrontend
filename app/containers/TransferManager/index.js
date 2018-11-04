@@ -13,7 +13,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectTransferManager, { makeSelectAllRequests } from './selectors';
+import makeSelectTransferManager, { makeSelectAllRequests, makeSelectNextPage } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import { Modal, Button } from 'react-bootstrap';
@@ -58,18 +58,22 @@ export class TransferManager extends React.Component { // eslint-disable-line re
       receiverAddress: '',
       status: '',
       showAlert:true,
+      page: 1,
+      disableNext: false,
+      disablePrevious: true,
     };
     this.handleShowTicket = this.handleShowTicket.bind(this);
+    this.pageChange = this.pageChange.bind(this);
+    this.previousChange = this.previousChange.bind(this);
   }
 
   componentDidMount() {
-    this.props.getRequests();
+    this.props.getRequests(this.state.page);
     console.log("metamsk",metamask);
     
   }
 
   componentWillReceiveProps(nextProps) {
-
     console.log("kyx done",this.props.kycDone);
     console.log("eth address",this.props.ethAddress);
     console.log("user info0", this.props.userInfo);
@@ -80,6 +84,7 @@ export class TransferManager extends React.Component { // eslint-disable-line re
     }
     this.setState({
       data: nextProps.allRequests,
+      disableNext: !nextProps.nextPage
     });
 
     if (nextProps.transfermanager.successRequest) {
@@ -90,6 +95,37 @@ export class TransferManager extends React.Component { // eslint-disable-line re
       toast.error('Some server side error occured');
     }
   }
+
+  pageChange() {
+    this.setState({
+      page: this.state.page + 1,
+    });
+    if (this.state.page + 1 > 1) {
+      this.setState({
+        disablePrevious: false,
+      });
+    } else {
+      this.setState({
+        disablePrevious: true,
+      });
+    }
+    this.props.getRequests(this.state.page + 1);
+  }
+
+  previousChange() {
+    if (this.state.page > 1) {
+      this.setState({
+        page: this.state.page - 1,
+      });
+      if (this.state.page - 1 == 1) {
+        this.setState({
+          disablePrevious: true,
+        });
+      }
+      this.props.getRequests(this.state.page - 1);
+    }
+  }
+
   handleShowTicket() {
     this.setState({
       show: true,
@@ -180,11 +216,13 @@ export class TransferManager extends React.Component { // eslint-disable-line re
                     <button className="btn btn-primary" onClick={this.handleShowTicket}>Generate Transfer Request</button>
                   </div>
                 </div>
-                <div className="row">
+                <div className="row" style={{marginTop: '20px'}}>
                   <div className="col-sm-12">
+                    <button className="btn btn-primary b1" disabled={this.state.disablePrevious} onClick={this.previousChange}> Previous Page </button>
+                    <button className="btn btn-primary b2" style={{ right: '16px', position: 'absolute' }} onClick={this.pageChange} disabled={this.state.disableNext}>Next Page </button>
                     <ReactTable
                       className="-striped -highlight"
-                      showPaginationBottom
+                      showPaginationBottom={false}
                       style={{ marginTop: '20px', fontSize: '12px', cursor: 'pointer' }}
                       data={this.state.data}
                       columns={this.state.columns}
@@ -214,8 +252,13 @@ export class TransferManager extends React.Component { // eslint-disable-line re
                       })}
 
                     />
+                    <br/>
+                    <button className="btn btn-primary b1" disabled={this.state.disablePrevious} onClick={this.previousChange}> Previous Page </button>
+                    <button className="btn btn-primary b2" style={{ right: '16px', position: 'absolute' }} onClick={this.pageChange} disabled={this.state.disableNext}>Next Page </button>
+                    
                   </div>
                 </div>
+                
               </div>
 
             </div>
@@ -335,13 +378,14 @@ const mapStateToProps = createStructuredSelector({
   kycDone: makeSelectKycDone(),
   ethAddress: makeSelectEthAddress(),
   userInfo: makeSelectUserInfo(),
+  nextPage: makeSelectNextPage()
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     createRequest: (data) => dispatch(createRequest(data)),
-    getRequests: () => dispatch(getRequests()),
+    getRequests: (data) => dispatch(getRequests(data)),
   };
 }
 

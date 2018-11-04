@@ -1,7 +1,7 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 import api from 'utils/api';
 import { CREATE_REQUEST, GET_REQUEST } from './constants';
-import { makeSelectCreateRequest } from './selectors';
+import { makeSelectCreateRequest, makeSelectPage, makeSelectNextPage } from './selectors';
 import { successGetRequests, successRequest, failGetRequests, failRequest, clearState,getRequests } from './actions';
 
 export function* createRequest() {
@@ -38,10 +38,11 @@ export function* getAllRequests() {
         'x-auth-token': localStorage.getItem('token'),
       },
     };
-    const apiData = yield call(api.user.getRequests, headers);
+    let page = yield select(makeSelectPage());
+    const apiData = yield call(api.user.getRequests, page, headers);
     if (apiData.success) {
       console.log(apiData);
-      yield put(successGetRequests(apiData.data));
+      yield put(successGetRequests(apiData));
       yield put(clearState());
     } else {
       yield put(failGetRequests());

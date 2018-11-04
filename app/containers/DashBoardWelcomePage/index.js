@@ -505,14 +505,6 @@ export class DashBoardWelcomePage extends React.PureComponent {
           {(this.props.location.pathname == '/dashboard') ?
              <div id="content" className="ui-content ui-content-aside-overlay">
               <KycAlert kycStatus={this.props.dashboardwelcomepage.userInfo.kycStatus} closeAlert={this.closeAlert} showAlert={this.state.showAlert}/>
-              <div className="row">
-                <div className="col-sm-6">
-                <h1>Dashboard</h1>
-                </div>
-                <div className="col-sm-6 hidden-xs text-right">
-                  <button className="btn btn-video" style={{marginRight:'20px'}} onClick={this.showVideo}>Video Instruction  <i className="fa fa-play-circle"></i></button>
-                </div>
-              </div>
               {/*
                 kycStatus === 'ACCEPTED' ? <Link to="/dashboard/contribution" > 
                 <button onClick={this.buyPage} className="form-buy-button"> <span>Buy Coins</span></button>
@@ -521,7 +513,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
               <div className="ui-content-body">
                 <div className="ui-container container-fluid">
                   <Balance userInfo={this.props.dashboardwelcomepage.userInfo} />
-                  <Refer code={this.props.dashboardwelcomepage.userInfo} />
+                  {/* <Refer code={this.props.dashboardwelcomepage.userInfo} /> */}
                 </div>
               </div>
 
@@ -560,23 +552,6 @@ export class DashBoardWelcomePage extends React.PureComponent {
             has contributed <strong>{this.state.notifyTransactions[this.state.notifyTransactions.length-1].amount}ETH</strong></p>
           </div> : null
           }
-        </div>
-
-        <div className="static-modal">
-          <Modal show={this.state.showVideo} onHide={this.closeVideo} style={{marginTop:'100px'}}>
-            <Modal.Body style={{background:'#edf2f8'}}>
-            <div className="row text-right">
-              <div className="col-sm-12">
-                <i className="fa fa-close" style={{cursor:'pointer'}} onClick={this.closeVideo}></i>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-sm-12">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/qOVAbKKSH10" frameBorder="0" allow="autoplay; encrypted-media" allowFullScreen></iframe>
-              </div>
-            </div>
-            </Modal.Body>
-          </Modal>
         </div>        
       </div>);
   }
