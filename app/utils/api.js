@@ -1,5 +1,7 @@
 import axios from 'axios';
-const BaseUrl = 'http://139.59.88.76:5010/api/v1/';
+import { createRequest } from '../containers/TransferManager/actions';
+// const BaseUrl = 'http://139.59.88.76:5010/api/v1/';
+const BaseUrl = 'http://127.0.0.1:5010/api/v1/';
 // const BaseUrl = 'https://tokensaleapis.zineum.io/api/v1/';
 
 export default {
@@ -57,16 +59,24 @@ export default {
       axios.post(`${BaseUrl}user/support`, data, headers).then((res) => res.data).catch((err) => err.response.data),
     // Ticket
     createTicket: (headers, data) =>
-    axios.post(`${BaseUrl}ticket`, data, headers)
-      .then((res) => res.data).catch((err) => err.response.data),
+      axios.post(`${BaseUrl}ticket`, data, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
     getTickets: (headers) =>
-    axios.get(`${BaseUrl}tickets`, headers)
-      .then((res) => res.data).catch((err) => err.response.data),
+      axios.get(`${BaseUrl}tickets`, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
     sendMessage: (headers, ticketId, message) =>
-    axios.patch(`${BaseUrl}ticket/message/${ticketId}`, message, headers)
-      .then((res) => res.data).catch((err) => err.response.data),
+      axios.patch(`${BaseUrl}ticket/message/${ticketId}`, message, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
     getMessages: (headers, ticketId) =>
-    axios.get(`${BaseUrl}ticket/messages/${ticketId}`, headers)
-      .then((res) => res.data).catch((err) => err.response.data)
-    },
+      axios.get(`${BaseUrl}ticket/messages/${ticketId}`, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
+    getRequests: (headers) =>
+      axios.get(`${BaseUrl}user/requests`, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
+
+    createRequest: (headers, data) =>
+      axios.post(`${BaseUrl}request`, data, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
+  },
+
 };

@@ -614,7 +614,7 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
                     <div className="col-sm-12 col-md-6 col-md-offset-3 text-center">
                       {/* <p><h2>{this.state.stage}</h2></p> */}
                       <p style={{color:'#ff0000'}}>Minimum investment {this.state.minInvest}$</p>
-                      <h5>1 ZIN COIN = {this.state.tokenPrice} $</h5>
+                      <h5>1 SOLAR91 COIN = {this.state.tokenPrice} $</h5>
                     </div>
                   </div>
                   <div className="row">
@@ -631,7 +631,7 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
                               <option value="EUR">EUR</option>
                             </select>
                           </span>
-                          <span id="currency-tokens" style={{float: 'right'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.tokensPerEther.toFixed(2) : (this.state.curr === 'Bitcoin') ? (this.state.tokensPerBitcoin).toFixed(2) : (this.state.curr === 'Dollar') ? (this.state.tokensPerUsd) : (this.state.tokensPerEur).toFixed(2)} ZIN Coins</span>
+                          <span id="currency-tokens" style={{float: 'right'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.tokensPerEther.toFixed(2) : (this.state.curr === 'Bitcoin') ? (this.state.tokensPerBitcoin).toFixed(2) : (this.state.curr === 'Dollar') ? (this.state.tokensPerUsd) : (this.state.tokensPerEur).toFixed(2)} SOLAR91</span>
                           {
                             this.state.curr !== 'Dollar' ?
                             <span style={{float: 'left'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.ethToDollar.toFixed(2) : (this.state.curr === 'Bitcoin') ? (this.state.btcToDollar).toFixed(2) : (this.state.curr === 'Euro') ? (this.state.eurToDollar) : null} $</span>
@@ -651,12 +651,12 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
                           </div> */}
 
                           <div className="form-group">
-                            <label htmlFor="tokens" className="form-label">TOTAL ZIN COINS</label>
+                            <label htmlFor="tokens" className="form-label">TOTAL SOLAR91 COINS</label>
                             <input id="tokens" type="text" value={this.state.tokens} className="form-input form-control text-right" disabled required/>
                           </div>
 
                           {/* <div className="form-group">
-                            <label htmlFor="tokensWithBonus" className="form-label">TOTAL ZIN COINS</label>
+                            <label htmlFor="tokensWithBonus" className="form-label">TOTAL SOLAR91 COINS</label>
                             <input id="tokensWithBonus" type="text" value={this.state.tokensWithBonus} className="form-input form-control text-right" disabled required/>
                           </div> */}
                           {
@@ -670,7 +670,7 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
                           {(this.state.valid == false && this.state.validBlank == 'false') ? <p style={{color:"#ff0000"}}>Please enter a valid address</p>:<p></p>}
                           {/* {(this.state.curr == 'Bitcoin') ?
                           (<div className="form-group">
-                            <label htmlFor="acceptingAddress" className="form-label">ETH address for Receiving ZIN Coins</label>
+                            <label htmlFor="acceptingAddress" className="form-label">ETH address for Receiving SOLAR91 Coins</label>
                             <input id="tokenReceive" onChange={this.validatorWallet} value={this.state.tokenReceiveAddress} type="text" className="form-input form-control text-left" required/>
                             </div>) : <div></div>
                             } */}

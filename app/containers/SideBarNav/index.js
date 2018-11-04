@@ -35,7 +35,8 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
       faqAct: '',
       profileAct: '',
       resetPassAct: '',
-      showSignOut: false
+      showSignOut: false,
+      transferAct:'',
     };
 
     this.handleLogOut = this.handleLogOut.bind(this);
@@ -51,6 +52,7 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
     this.toggleFaqActive = this.toggleFaqActive.bind(this);
     this.showSignOut = this.showSignOut.bind(this);
     this.closeSignOut = this.closeSignOut.bind(this);
+    this.toggleTransferActive = this.toggleTransferActive.bind(this);
   }
 
   componentDidMount() {
@@ -64,7 +66,8 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
       supportAct: this.props.support,
       faqAct: this.props.faqAct,
       profileAct: this.props.profile,
-      resetPassAct: this.props.resetPass
+      resetPassAct: this.props.resetPass,
+      transferAct: this.props.transfer,
     });
   }
   handleLogOut() {
@@ -124,6 +127,12 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
     this.props.toggleResetPassActive();
   }
 
+  toggleTransferActive (e){
+   
+    this.props.compact();
+    this.props.toggleTransferActive();
+  }
+
   componentWillReceiveProps(nextProps) {
     this.setState({
       dashAct: nextProps.dash,
@@ -135,7 +144,8 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
       supportAct: nextProps.support,
       faqAct: nextProps.faq,
       profileAct: nextProps.profile,
-      resetPassAct: nextProps.resetPass
+      resetPassAct: nextProps.resetPass,
+      transferAct: nextProps.transfer
     });
   }
 
@@ -221,6 +231,11 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
             <li className={this.state.secAct}><Link to="/dashboard/security" role="button" onClick={this.toggleSecActive}><span className="has-icon"><i className="fa fa-lock"></i></span><span>Security</span></Link>
               <ul className="nav nav-sub sidebar-niceScroll">
                 <li className="nav-sub-header"><Link to="/dashboard/security" role="button" onClick={this.toggleSecActive}><span>Security</span></Link></li>
+              </ul>
+            </li>
+            <li className={this.state.transferAct}><Link to="/dashboard/transferManager" role="button" onClick={this.toggleTransferActive}><span className="has-icon"><i className="fa fa-lock"></i></span><span>Transfer Manager</span></Link>
+              <ul className="nav nav-sub sidebar-niceScroll">
+                <li className="nav-sub-header"><Link to="/dashboard/transferManager" role="button" onClick={this.toggleTransferActive}><span>Transfer Manager</span></Link></li>
               </ul>
             </li>
             {/* <li className={this.state.supportAct}><Link to="/dashboard/support" role="button" onClick={this.toggleSupportActive}><span className="has-icon"><i className="fa fa-life-ring"></i></span><span>Support</span></Link>

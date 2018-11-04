@@ -16,6 +16,7 @@ import TransactionHistory from 'containers/TransactionHistory';
 import KycPage from 'containers/KycPage';
 import TicketPage from 'containers/TicketPage';
 import ContributionPage from 'containers/ContributionPage';
+import TransferManager from 'containers/TransferManager';
 import SecurityPage from 'containers/SecurityPage';
 import ResetPassword from 'containers/ResetPassword';
 import ProfilePage from 'containers/ProfilePage';
@@ -32,7 +33,21 @@ import $ from 'jquery'
 import reducer from './reducer';
 import saga from './saga';
 import Web3 from 'web3';
+
 const ABI = require('./CrowdSale');
+const initialState={
+  dash: '',
+  sec: '',
+  kyc: '',
+  cont: '',
+  tran: '',
+  support: '',
+  faq: '',
+  ticket: '',
+  profile: '',
+  resetPass: '',
+  transfer:'',
+};
 
 export class DashBoardWelcomePage extends React.PureComponent {
   constructor() {
@@ -55,7 +70,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
       alertMsg: '',
       showAlert: true,
       showVideo: false,
-      notifyTransactions: []
+      notifyTransactions: [],
+      transfer: '',
     };
     this.toggleContActive = this.toggleContActive.bind(this);
     this.toggleDashActive = this.toggleDashActive.bind(this);
@@ -67,6 +83,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
     this.toggleFaqActive = this.toggleFaqActive.bind(this);
     this.toggleProfileActive = this.toggleProfileActive.bind(this);
     this.toggleResetPassActive = this.toggleResetPassActive.bind(this);
+    this.toggleTransferActive = this.toggleTransferActive.bind(this);
     this.dashActive = this.dashActive.bind(this);
     this.buyPage = this.buyPage.bind(this);
     this.socialSubmit = this.socialSubmit.bind(this);
@@ -105,7 +122,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
         ticket: '',
         faq: '',
         profile: '',
-        resetPass: ''
+        resetPass: '',
+        transfer:'',
       });
     } else if (this.props.location.pathname == '/dashboard/contribution') {
       this.setState({
@@ -118,7 +136,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
         ticket: '',
         faq: '',
         profile: '',
-        resetPass: ''
+        resetPass: '',
+        transfer:'',
       });
     } else if (this.props.location.pathname == '/dashboard/kyc') {
       this.setState({
@@ -131,7 +150,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
         ticket: '',
         faq: '',
         profile: '',
-        resetPass: ''
+        resetPass: '',
+        transfer:'',
       });
     } else if (this.props.location.pathname == '/dashboard/transactionHistory') {
       this.setState({
@@ -144,7 +164,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
         ticket: '',
         faq: '',
         profile: '',
-        resetPass: ''
+        resetPass: '',
+        transfer:'',
       });
     } else if (this.props.location.pathname == '/dashboard/security') {
       this.setState({
@@ -157,7 +178,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
         ticket: '',
         faq: '',
         profile: '',
-        resetPass: ''
+        resetPass: '',
+        transfer:'',
       });
     } else if (this.props.location.pathname == '/dashboard/ticket') {
       this.setState({
@@ -170,7 +192,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
         faq: '',
         ticket: 'active',
         profile: '',
-        resetPass: ''
+        resetPass: '',
+        transfer:'',
       });
     } else if (this.props.location.pathname == '/dashboard/support') {
       this.setState({
@@ -183,7 +206,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
         ticket: '',
         faq: '',
         profile: '',
-        resetPass: ''
+        resetPass: '',
+        transfer:'',
       });
     } else if (this.props.location.pathname == '/dashboard/faq') {
       this.setState({
@@ -196,7 +220,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
         ticket: '',
         faq: 'active',
         profile: '',
-        resetPass: ''
+        resetPass: '',
+        transfer:'',
       });
     } else if (this.props.location.pathname == '/dashboard/profile') {
       this.setState({
@@ -209,7 +234,23 @@ export class DashBoardWelcomePage extends React.PureComponent {
         faq: '',
         ticket: '',
         profile: 'active',
-        resetPass: ''
+        resetPass: '',
+        transfer:'',
+      });
+    }
+    else if (this.props.location.pathname == '/dashboard/transferManager') {
+      this.setState({
+        dash: '',
+        cont: '',
+        kyc: '',
+        tran: '',
+        sec: '',
+        support: '',
+        faq: '',
+        ticket: '',
+        profile: '',
+        resetPass: '',
+        transfer:'active',
       });
     }
   }
@@ -301,157 +342,75 @@ export class DashBoardWelcomePage extends React.PureComponent {
   }
   toggleDashActive() {
     this.setState({
-      dash: 'active',
-      kyc: '',
-      sec: '',
-      cont: '',
-      tran: '',
-      support: '',
-      ticket: '',
-      faq: '',
-      profile: '',
-      resetPass: ''
+      ...initialState,
+      dash: 'active'
     });
   }
   toggleSecActive() {
     this.setState({
-      dash: '',
-      kyc: '',
-      sec: 'active',
-      cont: '',
-      tran: '',
-      support: '',
-      ticket: '',
-      faq: '',
-      profile: '',
-      resetPass: ''
+      ...initialState,
+      sec: 'active'
     });
   }
   toggleContActive() {
     this.setState({
-      dash: '',
-      sec: '',
-      kyc: '',
-      cont: 'active',
-      tran: '',
-      support: '',
-      ticket: '',
-      faq: '',
-      profile: '',
-      resetPass: ''
+      ...initialState,
+      cont: 'active'
     });
   }
   toggleTranActive() {
     this.setState({
-      dash: '',
-      sec: '',
-      kyc: '',
-      cont: '',
-      tran: 'active',
-      support: '',
-      ticket: '',
-      faq: '',
-      profile: '',
-      resetPass: ''
+      ...initialState,
+      tran: 'active'
     });
   }
   toggleSupportActive() {
     this.setState({
-      dash: '',
-      sec: '',
-      kyc: '',
-      cont: '',
-      tran: '',
-      support: 'active',
-      ticket: '',
-      faq: '',
-      profile: '',
-      resetPass: ''
+      ...initialState,
+      support: 'active'
     });
   }
   dashActive() {
     this.setState({
-      dash: 'active',
-      sec: '',
-      kyc: '',
-      cont: '',
-      tran: '',
-      support: '',
-      ticket: '',
-      faq: '',
-      profile: '',
-      resetPass: ''
+      ...initialState,
+      dash: 'active'
     });
     this.notifyTimeout();
   }
   toggleKycActive() {
     this.setState({
-      dash: '',
-      sec: '',
-      kyc: 'active',
-      cont: '',
-      tran: '',
-      support: '',
-      ticket: '',
-      faq: '',
-      profile: '',
-      resetPass: ''
+      ...initialState,
+      kyc: 'active'
     });
   }
   toggleFaqActive() {
     this.setState({
-      dash: '',
-      sec: '',
-      kyc: '',
-      cont: '',
-      tran: '',
-      support: '',
-      ticket: '',
-      faq: 'active',
-      profile: '',
-      resetPass: ''
+      ...initialState,
+      faq: 'active'
     });
   }
   toggleTicketActive() {
     this.setState({
-      dash: '',
-      sec: '',
-      kyc: '',
-      cont: '',
-      tran: '',
-      support: '',
-      faq: '',
-      ticket: 'active',
-      profile: '',
-      resetPass: ''
+      ...initialState,
+      ticket: 'active'
     });
   }
   toggleProfileActive() {
     this.setState({
-      dash: '',
-      sec: '',
-      kyc: '',
-      cont: '',
-      tran: '',
-      support: '',
-      faq: '',
-      ticket: '',
-      profile: 'active',
-      resetPass: ''
+      ...initialState,
+      profile: 'active'
     });
   }
   toggleResetPassActive() {
     this.setState({
-      dash: '',
-      sec: '',
-      kyc: '',
-      cont: '',
-      tran: '',
-      support: '',
-      faq: '',
-      ticket: '',
-      profile: '',
+      ...initialState,
       resetPass: 'active'
+    });
+  }
+  toggleTransferActive() {
+    this.setState({
+      ...initialState,
+      transfer: 'active'
     });
   }
   notifyTimeout() {
@@ -519,6 +478,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
             dash={this.state.dash}
             sec={this.state.sec}
             tran={this.state.tran}
+            transfer={this.state.transfer}
             cont={this.state.cont}
             kyc={this.state.kyc}
             support={this.state.support}
@@ -540,6 +500,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
             toggleProfileActive={this.toggleProfileActive}
             toggleResetPassActive={this.toggleResetPassActive}
             toggleTicketActive={this.toggleTicketActive}
+            toggleTransferActive={this.toggleTransferActive}
           />
           {(this.props.location.pathname == '/dashboard') ?
              <div id="content" className="ui-content ui-content-aside-overlay">
@@ -575,8 +536,11 @@ export class DashBoardWelcomePage extends React.PureComponent {
                       <ResetPassword />
                     </div>
                   </div>
-                </div> : (this.props.location.pathname == '/dashboard/contribution') ?
+                </div> :
+                  (this.props.location.pathname == '/dashboard/contribution') ?
                   <ContributionPage /> :
+                  (this.props.location.pathname == '/dashboard/transferManager') ?
+                  <TransferManager /> :
                   (this.props.location.pathname == '/dashboard/support') ?
                   <SupportPage /> :
                   (this.props.location.pathname == '/dashboard/faq') ?

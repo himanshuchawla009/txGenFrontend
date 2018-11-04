@@ -152,7 +152,7 @@ export class ContributionConfirm extends React.PureComponent { // eslint-disable
                       <div className="row">
                         <div className="col-sm-12 col-md-6">
                           <ol>
-                            <li>Wallet address to deposit <strong>{this.props.currencyQty} {this.props.currency === 'Ethereum' ? 'ETH' : 'BTC'}</strong> for purchase of <strong>{this.props.tokens} ZIN Coins</strong>
+                            <li>Wallet address to deposit <strong>{this.props.currencyQty} {this.props.currency === 'Ethereum' ? 'ETH' : 'BTC'}</strong> for purchase of <strong>{this.props.tokens} SOLAR91 tokens</strong>
                               <div className="mt-10">
                                 <div className="mt-20">
                                   <div className="blockchain-tx text-center ">
