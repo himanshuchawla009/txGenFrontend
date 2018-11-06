@@ -70,7 +70,7 @@ export class TransferManager extends React.Component { // eslint-disable-line re
   componentDidMount() {
     this.props.getRequests(this.state.page);
     console.log("metamsk",metamask);
-    
+
   }
 
   componentWillReceiveProps(nextProps) {
@@ -255,10 +255,10 @@ export class TransferManager extends React.Component { // eslint-disable-line re
                     <br/>
                     <button className="btn btn-primary b1" disabled={this.state.disablePrevious} onClick={this.previousChange}> Previous Page </button>
                     <button className="btn btn-primary b2" style={{ right: '16px', position: 'absolute' }} onClick={this.pageChange} disabled={this.state.disableNext}>Next Page </button>
-                    
+
                   </div>
                 </div>
-                
+
               </div>
 
             </div>
@@ -282,7 +282,7 @@ export class TransferManager extends React.Component { // eslint-disable-line re
                 {(this.props.userInfo.kycStatus !== 'ACCEPTED')&&
                  <h2 style={{ textAlign: 'center', color: 'red' }}>Your Kyc is not verified.</h2>}
 
-  
+
  {(this.props.userInfo.kycStatus === 'ACCEPTED') &&
                 <div className="row">
                   <div className="col-sm-12">
@@ -321,12 +321,12 @@ export class TransferManager extends React.Component { // eslint-disable-line re
                  </div>
 
                 {(this.state.status === 'APPROVED') ?
-                
+
                   <div className="row">
-                    
+
  {(this.props.userInfo.kycStatus !== 'ACCEPTED') &&  <h2 style={{ textAlign: 'center', color: 'red' }}>Your Kyc is not verified.</h2>}
  {(!metamask) &&  <h2 style={{ textAlign: 'center', color: 'red' }}>Please install metamask chrome extension.</h2>}
- {((this.props.userInfo.kycStatus === 'ACCEPTED') && metamask) && 
+ {((this.props.userInfo.kycStatus === 'ACCEPTED') && metamask) &&
                    <div className="col-sm-12">
                       <form className="form-horizontal createTicket-form" onSubmit={this.transferAmount}>
                         <div className="form-group">

@@ -3,7 +3,6 @@ import RegisterPage from '../containers/RegisterPage'
 import DashboardPage from '../containers/DashboardPage'
 import { SecurityPage } from '../containers/SecurityPage';
 
-
 export default [
   {
     path: '/',

@@ -37,6 +37,7 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
       resetPassAct: '',
       showSignOut: false,
       transferAct:'',
+      salesAct: ''
     };
 
     this.handleLogOut = this.handleLogOut.bind(this);
@@ -53,6 +54,7 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
     this.showSignOut = this.showSignOut.bind(this);
     this.closeSignOut = this.closeSignOut.bind(this);
     this.toggleTransferActive = this.toggleTransferActive.bind(this);
+    this.toggleSalesActive = this.toggleSalesActive.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +70,7 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
       profileAct: this.props.profile,
       resetPassAct: this.props.resetPass,
       transferAct: this.props.transfer,
+      salesAct: this.props.sales
     });
   }
   handleLogOut() {
@@ -127,10 +130,14 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
     this.props.toggleResetPassActive();
   }
 
-  toggleTransferActive (e){
-   
+  toggleTransferActive(e){
     this.props.compact();
     this.props.toggleTransferActive();
+  }
+
+  toggleSalesActive(e){
+    this.props.compact();
+    this.props.toggleSalesActive();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -145,7 +152,8 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
       faqAct: nextProps.faq,
       profileAct: nextProps.profile,
       resetPassAct: nextProps.resetPass,
-      transferAct: nextProps.transfer
+      transferAct: nextProps.transfer,
+      salesAct: nextProps.sales
     });
   }
 
@@ -154,13 +162,13 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
       showSignOut: true
     })
   }
-  
+
   closeSignOut() {
     this.setState({
       showSignOut: false
     })
   }
-  
+
 
   render() {
     return (
@@ -238,6 +246,31 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
                 <li className="nav-sub-header"><Link to="/dashboard/transferManager" role="button" onClick={this.toggleTransferActive}><span>Transfer Manager</span></Link></li>
               </ul>
             </li>
+            {/* Sales Manager Start */}
+            <li>
+              <Link
+                className={this.state.salesAct}
+                to="/dashboard/salesManager"
+                role="button"
+                onClick={this.toggleSalesActive}>
+                <span className="has-icon">
+                  <i className="fa fa-lock"></i>
+                </span>
+                <span>Sales Manager</span>
+              </Link>
+              <ul className="nav nav-sub sidebar-niceScroll">
+                <li className="nav-sub-header">
+                  <Link
+                    to="/dashboard/salesManager"
+                    role="button"
+                    onClick={this.toggleSalesActive}
+                  >
+                    <span>Sales Manager</span>
+                  </Link>
+                </li>
+              </ul>
+            </li>
+            {/* Sales Manager End */}
             {/* <li className={this.state.supportAct}><Link to="/dashboard/support" role="button" onClick={this.toggleSupportActive}><span className="has-icon"><i className="fa fa-life-ring"></i></span><span>Support</span></Link>
               <ul className="nav nav-sub sidebar-niceScroll">
                 <li className="nav-sub-header"><Link to="/dashboard/support" role="button" onClick={this.toggleSupportActive}><span>Support</span></Link></li>
@@ -266,7 +299,7 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
               <ul className="nav nav-sub sidebar-niceScroll">
                 <li className="nav-sub-header"><a><span>Sign Out</span></a></li>
               </ul>
-            </li> 
+            </li>
           </ul>
         </aside>
         </div>

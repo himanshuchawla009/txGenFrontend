@@ -17,6 +17,7 @@ import KycPage from 'containers/KycPage';
 import TicketPage from 'containers/TicketPage';
 import ContributionPage from 'containers/ContributionPage';
 import TransferManager from 'containers/TransferManager';
+import SalesManager from 'containers/SalesManager';
 import SecurityPage from 'containers/SecurityPage';
 import ResetPassword from 'containers/ResetPassword';
 import ProfilePage from 'containers/ProfilePage';
@@ -47,6 +48,7 @@ const initialState={
   profile: '',
   resetPass: '',
   transfer:'',
+  sales: ''
 };
 
 export class DashBoardWelcomePage extends React.PureComponent {
@@ -72,6 +74,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
       showVideo: false,
       notifyTransactions: [],
       transfer: '',
+      sales: ''
     };
     this.toggleContActive = this.toggleContActive.bind(this);
     this.toggleDashActive = this.toggleDashActive.bind(this);
@@ -84,6 +87,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
     this.toggleProfileActive = this.toggleProfileActive.bind(this);
     this.toggleResetPassActive = this.toggleResetPassActive.bind(this);
     this.toggleTransferActive = this.toggleTransferActive.bind(this);
+    this.toggleSalesActive = this.toggleSalesActive.bind(this);
     this.dashActive = this.dashActive.bind(this);
     this.buyPage = this.buyPage.bind(this);
     this.socialSubmit = this.socialSubmit.bind(this);
@@ -106,7 +110,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         address: event.returnValues['0'],
         amount: event.returnValues.weiAmount / Math.pow(10, 18)
       }
-      var newArray = outer.state.notifyTransactions.slice();    
+      var newArray = outer.state.notifyTransactions.slice();
       newArray.unshift(transaction);
       outer.setState({notifyTransactions:newArray})
     });
@@ -124,6 +128,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: '',
         resetPass: '',
         transfer:'',
+        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/contribution') {
       this.setState({
@@ -138,6 +143,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: '',
         resetPass: '',
         transfer:'',
+        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/kyc') {
       this.setState({
@@ -152,6 +158,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: '',
         resetPass: '',
         transfer:'',
+        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/transactionHistory') {
       this.setState({
@@ -166,6 +173,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: '',
         resetPass: '',
         transfer:'',
+        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/security') {
       this.setState({
@@ -180,6 +188,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: '',
         resetPass: '',
         transfer:'',
+        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/ticket') {
       this.setState({
@@ -194,6 +203,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: '',
         resetPass: '',
         transfer:'',
+        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/support') {
       this.setState({
@@ -208,6 +218,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: '',
         resetPass: '',
         transfer:'',
+        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/faq') {
       this.setState({
@@ -222,6 +233,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: '',
         resetPass: '',
         transfer:'',
+        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/profile') {
       this.setState({
@@ -236,6 +248,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: 'active',
         resetPass: '',
         transfer:'',
+        sales: ''
       });
     }
     else if (this.props.location.pathname == '/dashboard/transferManager') {
@@ -251,6 +264,24 @@ export class DashBoardWelcomePage extends React.PureComponent {
         profile: '',
         resetPass: '',
         transfer:'active',
+        sales: ''
+      });
+    }
+    else if (this.props.location.pathname == '/dashboard/salesManager') {
+      console.log("sales active call");
+      this.setState({
+        sales:'active',
+        dash: '',
+        cont: '',
+        kyc: '',
+        tran: '',
+        sec: '',
+        support: '',
+        faq: '',
+        ticket: '',
+        profile: '',
+        resetPass: '',
+        transfer:''
       });
     }
   }
@@ -413,6 +444,13 @@ export class DashBoardWelcomePage extends React.PureComponent {
       transfer: 'active'
     });
   }
+  toggleSalesActive() {
+    console.log('toggleSalesActive called');
+    this.setState({
+      ...initialState,
+      sales: 'active'
+    });
+  }
   notifyTimeout() {
     toast.error('Transaction timeout ,Please try again and complete transaction within 30 minutes');
   }
@@ -457,8 +495,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
       //  }
     }
 
-  
-    const { kycStatus } = this.props.dashboardwelcomepage.userInfo; 
+
+    const { kycStatus } = this.props.dashboardwelcomepage.userInfo;
     if (!localStorage.token) {
       return <Redirect to="/" />;
     }
@@ -479,6 +517,7 @@ export class DashBoardWelcomePage extends React.PureComponent {
             sec={this.state.sec}
             tran={this.state.tran}
             transfer={this.state.transfer}
+            sales={this.state.sales}
             cont={this.state.cont}
             kyc={this.state.kyc}
             support={this.state.support}
@@ -501,12 +540,13 @@ export class DashBoardWelcomePage extends React.PureComponent {
             toggleResetPassActive={this.toggleResetPassActive}
             toggleTicketActive={this.toggleTicketActive}
             toggleTransferActive={this.toggleTransferActive}
+            toggleSalesActive={this.toggleSalesActive}
           />
           {(this.props.location.pathname == '/dashboard') ?
              <div id="content" className="ui-content ui-content-aside-overlay">
               <KycAlert kycStatus={this.props.dashboardwelcomepage.userInfo.kycStatus} closeAlert={this.closeAlert} showAlert={this.state.showAlert}/>
               {/*
-                kycStatus === 'ACCEPTED' ? <Link to="/dashboard/contribution" > 
+                kycStatus === 'ACCEPTED' ? <Link to="/dashboard/contribution" >
                 <button onClick={this.buyPage} className="form-buy-button"> <span>Buy Coins</span></button>
                 </Link> : <button onClick={this.buyPage} className="form-buy-button"> <span>Buy Coins</span></button>
               */}
@@ -533,6 +573,8 @@ export class DashBoardWelcomePage extends React.PureComponent {
                   <ContributionPage /> :
                   (this.props.location.pathname == '/dashboard/transferManager') ?
                   <TransferManager /> :
+                  (this.props.location.pathname == '/dashboard/salesManager') ?
+                  <SalesManager /> :
                   (this.props.location.pathname == '/dashboard/support') ?
                   <SupportPage /> :
                   (this.props.location.pathname == '/dashboard/faq') ?
@@ -546,13 +588,13 @@ export class DashBoardWelcomePage extends React.PureComponent {
 '' }
           <div id="footer" className="ui-footer">© 2018 Fraction0x, All Rights Reserved</div>
           <div className="sticky-telegram-logo"><a href=" https://t.me/zineumofficial" className="sticky-telegram-icon" target="_blank">Telegram</a></div>
-          { this.state.notifyTransactions.length > 0 ? 
+          { this.state.notifyTransactions.length > 0 ?
           <div className="notify-deposit fade-in" id="notify">
-          <p><strong>{this.state.notifyTransactions[this.state.notifyTransactions.length-1].address}</strong><br/> 
+          <p><strong>{this.state.notifyTransactions[this.state.notifyTransactions.length-1].address}</strong><br/>
             has contributed <strong>{this.state.notifyTransactions[this.state.notifyTransactions.length-1].amount}ETH</strong></p>
           </div> : null
           }
-        </div>        
+        </div>
       </div>);
   }
 }
