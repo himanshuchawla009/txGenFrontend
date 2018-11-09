@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createRequest } from '../containers/TransferManager/actions';
 // const BaseUrl = 'http://139.59.88.76:5010/api/v1/';
-const BaseUrl = 'http://127.0.0.1:5010/api/v1/';
+const BaseUrl = 'http://localhost:5010/api/v1/';
 // const BaseUrl = 'https://tokensaleapis.zineum.io/api/v1/';
 
 export default {
@@ -77,6 +77,30 @@ export default {
     createRequest: (headers, data) =>
       axios.post(`${BaseUrl}request`, data, headers)
         .then((res) => res.data).catch((err) => err.response.data),
+    createBuyRequest: (headers, data) =>
+      axios.post(`${BaseUrl}buyRequest`, data, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
+    createSellRequest: (headers, data) =>
+      axios.post(`${BaseUrl}sellRequest`, data, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
+    allTradeRequests: (headers) =>
+      axios.get(`${BaseUrl}admin/tradeRequests`, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
+    userTradeRequests: (headers) =>
+      axios.get(`${BaseUrl}user/tradeRequest`, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
+    userBuyRequests: (headers) =>
+      axios.get(`${BaseUrl}/admin/buyRequests`, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
+    userSellRequests: (headers) =>
+      axios.get(`${BaseUrl}/admin/sellRequests`, headers)
+        .then((res) => res.data).catch((err) => err.response.data),
+
+    etherToDollar: () =>
+      axios.get('https://api.cryptonator.com/api/ticker/eth-usd')
+        .then((res) => res.data).catch((err) => err.response.data),
+
+
   },
 
 };

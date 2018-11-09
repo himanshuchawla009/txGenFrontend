@@ -8,30 +8,50 @@ import 'react-table/react-table.css';
 import { Modal, Button } from 'react-bootstrap';
 // import { toast, ToastContainer } from 'react-toastify';
 import { makeSelectKycDone, makeSelectUserInfo, makeSelectEthAddress } from '../DashBoardWelcomePage/selectors';
-import KycAlert from 'components/KycAlert/Loadable';
+import { makeSelectBuyRequests, makeSelectSellRequests, makeSelectBuyFail, makeSelectBuySuccess, makeSelectSellFail, makeSelectSellSuccess } from './selectors';
 import { metamask } from '../../contracts/tokenContract';
+import { sendEther, sendTokensToExchange, dollarToEther,checkIfAddressLoaded } from '../../contracts/contractService';
+import { buyRequest, sellRequest, getAllRequests } from './actions';
+import injectSaga from 'utils/injectSaga';
+import injectReducer from 'utils/injectReducer';
+import reducer from './reducer';
+import saga from './saga';
+import { toast } from 'react-toastify';
 
+const price = 1;
 class SalesManager extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      buyData: [],
+      sellData: [],
       data: [],
       columns: [
         {
-          Header: 'Service Type',
-          accessor: 'serviceType', // Custom cell components!
-          className: 'text-center'
-        },
-        {
-          Header: 'Tokens Bought',
-          accessor: 'tokensBought', // Custom cell components!
+          Header: 'Order Type',
+          accessor: 'type', // Custom cell components!
           className: 'text-center',
         },
         {
-          Header: 'Ethereum Address',
-          accessor: 'ethAddress', // Custom cell components!
+          Header: 'Tokens',
+          accessor: 'tokens', // Custom cell components!
           className: 'text-center',
-        }
+        },
+        {
+          Header: 'Orderer Address',
+          accessor: 'senderAddress', // Custom cell components!
+          className: 'text-center',
+        },
+        {
+          Header: 'Transaction Request Hash',
+          accessor: 'requestHash', // Custom cell components!
+          className: 'text-center',
+        },
+        {
+          Header: 'Orderer Status',
+          accessor: 'status', // Custom cell components!
+          className: 'text-center',
+        },
       ],
       show: false,
       showBuy: false,
@@ -39,10 +59,11 @@ class SalesManager extends React.Component {
       salesShow: false,
       status: '',
       showAlert: true,
-      ethAddress: '-'
+      ethAddress: '-',
       // page: 1,
       // disableNext: false,
       // disablePrevious: true,
+      totalPrice: 0,
     };
     this.handleShowTicket = this.handleShowTicket.bind(this);
     this.handleShowBuy = this.handleShowBuy.bind(this);
@@ -51,17 +72,26 @@ class SalesManager extends React.Component {
   }
 
   componentDidMount() {
-    console.log("metamask : ", metamask);
+    console.log('metamask : ', metamask);
+    this.props.getAllRequests();
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("kyc done : ",this.nextProps.kycDone);
-    console.log("user info : ",this.nextProps.userInfo);
-    if(nextProps.kycDone == false) {
-      this.setState({
-        showAlert:true,
-        ethAddress: nextProps.ethAddress
-      })
+    this.setState({
+      buyData: nextProps.buyRequests,
+      sellData: nextProps.sellRequests,
+    });
+    if (nextProps.sellFail) {
+      toast.error('Sell request failed');
+    }
+    if (nextProps.buyFail) {
+      toast.error('Buy request failed');
+    }
+    if (nextProps.buySuccess) {
+      toast.success('Buy request Success');
+    }
+    if (nextProps.sellSuccess) {
+      toast.success('Sell request Success');
     }
   }
 
@@ -71,6 +101,8 @@ class SalesManager extends React.Component {
       show: true,
     });
   }
+
+  
 
   handleShowBuy() {
     console.log('handleShowBuy called');
@@ -86,10 +118,10 @@ class SalesManager extends React.Component {
     });
   }
 
-  closeAlert(){
+  closeAlert() {
     console.log('close alert');
     this.setState({
-      showAlert : false
+      showAlert: false,
     });
   }
 
@@ -104,6 +136,9 @@ class SalesManager extends React.Component {
     console.log('handleCloseBuy called');
     this.setState({
       showBuy: false,
+      tokens: 0,
+      priceInEther: 0,
+      totalPrice: 0,
     });
   }
 
@@ -111,6 +146,8 @@ class SalesManager extends React.Component {
     console.log('handleCloseSell called');
     this.setState({
       showSell: false,
+      sellTokens: 0,
+      totalPrice: 0,
     });
   }
 
@@ -128,22 +165,71 @@ class SalesManager extends React.Component {
     });
   }
 
-  handleBuySubmit = event => {
+  handleBuySubmit =async (event) => {
     event.preventDefault();
-    console.log("handleBuySubmit");
-    const details = {
-      tokensBought: event.target[0].value,
-      serviceType: "buy",
-      ethAddress: this.state.ethAddress
-    };
-    this.setState({
-      data: this.state.data.push(details)
-    });
-    console.log("details : ", details);
-    console.log("data : ", this.state.data);
-    console.log("columns : ", this.state.columns);
+    const priceIndollars = this.state.totalPrice;
+    const priceInEther = this.state.priceInEther;
+    try {
+      await checkIfAddressLoaded(this.props.userInfo.ethAddress);
+      const data = {};
+      data.tokens = this.state.tokens;
+      data.senderAddress =  this.props.userInfo.ethAddress;
+      const hash = await sendEther(priceInEther);
+      data.hash = hash.transactionHash;
+      console.log(data);
+      this.props.buyRequest(data);
+      console.log('sening buy request');
+     
+    } catch (error) {
+      toast.error(error);
+    }
     this.handleCloseBuy();
+  
+   
   };
+
+  handleBuyChange = async (e) => {
+    console.log(e.target.value);
+    const value = e.target.value;
+    const priceInEther = await dollarToEther(value);
+    console.log(priceInEther);
+    this.setState({
+      totalPrice: value * price,
+      tokens: value,
+      priceInEther,
+    });
+  }
+
+  handleSellChange = (e) => {
+    console.log(e.target.value);
+
+    this.setState({
+      totalPrice: e.target.value * price,
+      sellTokens: e.target.value,
+    });
+  }
+
+
+  handleSellSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await checkIfAddressLoaded(this.props.userInfo.ethAddress);
+      const data = {};
+    data.tokens = this.state.sellTokens;
+    data.senderAddress =  this.props.userInfo.ethAddress;
+      const hash = await sendTokensToExchange(this.state.sellTokens);
+    
+    data.hash = hash.transactionHash;
+    console.log(data);
+    this.props.sellRequest(data);
+    console.log('sening buy request');
+    
+    } catch (error) {
+      toast.error(error);
+    }
+    this.handleCloseSell();
+    
+  }
 
   render() {
     return (
@@ -177,26 +263,51 @@ class SalesManager extends React.Component {
                     </button>
                   </div>
                 </div>
-                <div className="row" style={{marginTop: '20px'}}>
+
+                <div className="row" style={{ marginTop: '20px' }}>
                   <div className="col-sm-12">
                     <button className="btn btn-primary b1"> Previous Page </button>
                     <button className="btn btn-primary b2" style={{ right: '16px', position: 'absolute' }} >Next Page </button>
+                    <h2> Buying orders</h2>
                     <ReactTable
                       className="-striped -highlight"
                       showPaginationBottom={false}
                       style={{ marginTop: '20px', fontSize: '12px', cursor: 'pointer' }}
-                      data={this.state.data}
+                      data={this.state.buyData}
                       columns={this.state.columns}
                       // pageSizeOptions={[5, 10]}
                       noDataText={'NO Tickets Found'}
                       rowsText={'Tickets'}
                       defaultPageSize={10}
                     />
-                    <br/>
+                    <br />
+                  </div>
+                </div>
+
+
+                <div className="row" style={{ marginTop: '20px' }}>
+                    <div className="col-sm-12">
+                    <button className="btn btn-primary b1"> Previous Page </button>
+                    <button className="btn btn-primary b2" style={{ right: '16px', position: 'absolute' }} >Next Page </button>
+                    <h2>Selling orders</h2>
+                    <ReactTable
+                      className="-striped -highlight"
+                      showPaginationBottom={false}
+                      style={{ marginTop: '20px', fontSize: '12px', cursor: 'pointer' }}
+                      data={this.state.sellData}
+                      columns={this.state.columns}
+                      // pageSizeOptions={[5, 10]}
+                      noDataText={'NO Tickets Found'}
+                      rowsText={'Tickets'}
+                      defaultPageSize={10}
+                    />
+                    <br />
                     <button className="btn btn-primary b1"> Previous Page </button>
                     <button className="btn btn-primary b2" style={{ right: '16px', position: 'absolute' }}>Next Page </button>
                   </div>
-                </div>
+                  </div>
+
+
               </div>
             </div>
           </div>
@@ -214,53 +325,7 @@ class SalesManager extends React.Component {
                     <h3>Buy Tokens</h3><hr />
                   </div>
                 </div>
-                    {
-                      (this.props.userInfo.kycStatus === 'ACCEPTED') &&
-                      <h2 style={{ textAlign: 'center', color: 'red' }}>Your Kyc is not verified.</h2>
-                    }
-                    {
-                      (!metamask) &&
-                      <h2 style={{ textAlign: 'center', color: 'red' }}>
-                        Please install metamask chrome extension.
-                      </h2>
-                    }
-
-                   {
-                     ((this.props.userInfo.kycStatus !== 'ACCEPTED') && metamask) &&
-                      <div className="row">
-                        <div className="col-sm-12">
-                           <form className="form-horizontal createBuy-form" onSubmit={this.handleBuySubmit}>
-                             <div className="form-group">
-                               <label className="control-label col-sm-4"><h4>Number Of Tokens</h4></label>
-                               <div className="col-sm-8">
-                                 <input type="number" className="form-input" required />
-                               </div>
-                             </div>
-                             <div className="form-group text-center">
-                               <button className="form-button">Buy</button>
-                             </div>
-                           </form>
-                        </div>
-                      </div>
-                    }
-                  </Modal.Body>
-                </Modal>
-              </div>
-
-              <div className="static-modal">
-                <Modal show={this.state.showSell} onHide={this.handleCloseSell} bsSize="large" dialogClassName="createTicketModal">
-                  <Modal.Body>
-                    <div className="row">
-                      <div className="col-sm-12 text-right" style={{ cursor: 'pointer' }}>
-                        <i className="fa fa-close" onClick={this.handleCloseSell}></i>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-sm-12 text-center">
-                        <h3>Sell Token</h3><hr />
-                      </div>
-                    </div>
-                    {
+                {/* {
                       (this.props.userInfo.kycStatus !== 'ACCEPTED') &&
                       <h2 style={{ textAlign: 'center', color: 'red' }}>Your Kyc is not verified.</h2>
                     }
@@ -269,31 +334,80 @@ class SalesManager extends React.Component {
                       <h2 style={{ textAlign: 'center', color: 'red' }}>
                         Please install metamask chrome extension.
                       </h2>
-                    }
-                    {
-                      ((this.props.userInfo.kycStatus === 'ACCEPTED') && metamask) &&
-                      <div className="row">
+                    } */}
+
+                {
+                  ((this.props.userInfo.kycStatus !== 'ACCEPTED') && metamask) &&
+                     <div className="row">
                         <div className="col-sm-12">
-                           <form className="form-horizontal createBuy-form" onSubmit={console.log("form submit Sell")}>
-                             <div className="form-group">
-                               <label className="control-label col-sm-4"><h4>Number Of Tokens</h4></label>
-                               <div className="col-sm-8">
-                                 <input type="number" className="form-input" required />
-                               </div>
-                             </div>
-                             <div className="form-group text-center">
-                               <button className="form-button">Sell</button>
-                             </div>
-                           </form>
+                          <form className="form-horizontal createBuy-form">
+                            <div className="form-group">
+                              <label className="control-label col-sm-4"><h4>Number Of Tokens</h4></label>
+                              <div className="col-sm-8">
+                                <input type="number" className="form-input" required onChange={this.handleBuyChange} />
+                                <h4>Buying Price In Dollars:{this.state.totalPrice}$</h4>
+                                <h4>Buying Price In Ethers:{this.state.priceInEther}</h4>
+
+                              </div>
+                            </div>
+                            <div className="form-group text-center">
+                              <button className="form-button" onClick={this.handleBuySubmit}>Buy</button>
+                            </div>
+                          </form>
                         </div>
                       </div>
-                    }
+                }
               </Modal.Body>
             </Modal>
           </div>
 
-          </div>
+          <div className="static-modal">
+            <Modal show={this.state.showSell} onHide={this.handleCloseSell} bsSize="large" dialogClassName="createTicketModal">
+              <Modal.Body>
+                <div className="row">
+                  <div className="col-sm-12 text-right" style={{ cursor: 'pointer' }}>
+                    <i className="fa fa-close" onClick={this.handleCloseSell}></i>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-sm-12 text-center">
+                    <h3>Sell Token</h3><hr />
+                  </div>
+                </div>
+                {/* {
+                      (this.props.userInfo.kycStatus !== 'ACCEPTED') &&
+                      <h2 style={{ textAlign: 'center', color: 'red' }}>Your Kyc is not verified.</h2>
+                    }
+                    {
+                      (!metamask) &&
+                      <h2 style={{ textAlign: 'center', color: 'red' }}>
+                        Please install metamask chrome extension.
+                      </h2>
+                    } */}
+                {
+                  ((this.props.userInfo.kycStatus !== 'ACCEPTED') && metamask) &&
+                      <div className="row">
+                        <div className="col-sm-12">
+                          <form className="form-horizontal createBuy-form">
+                            <div className="form-group">
+                              <label className="control-label col-sm-4"><h4>Number Of Tokens</h4></label>
+                              <div className="col-sm-8">
+                                <input type="number" className="form-input" required onChange={this.handleSellChange} />
+                              </div>
+                            </div>
+                            <div className="form-group text-center">
+                              <button className="form-button" onClick={this.handleSellSubmit}>Sell</button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                }
+                  </Modal.Body>
+                </Modal>
+              </div>
+
         </div>
+      </div>
     );
   }
 }
@@ -301,11 +415,30 @@ class SalesManager extends React.Component {
 const mapStateToProps = createStructuredSelector({
   kycDone: makeSelectKycDone(),
   userInfo: makeSelectUserInfo(),
-  ethAddress: makeSelectEthAddress()
+  ethAddress: makeSelectEthAddress(),
+  buyRequests: makeSelectBuyRequests(),
+  sellRequests: makeSelectSellRequests(),
+  buySuccess: makeSelectBuySuccess(),
+  buyFail: makeSelectBuyFail(),
+  sellSuccess: makeSelectSellSuccess(),
+  sellFail: makeSelectSellFail(),
 });
 
-const withConnect = connect(mapStateToProps, null);
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+    buyRequest: (data) => dispatch(buyRequest(data)),
+    sellRequest: (data) => dispatch(sellRequest(data)),
+    getAllRequests: () => dispatch(getAllRequests()),
+  };
+}
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+const withReducer = injectReducer({ key: 'salesManager', reducer });
+const withSaga = injectSaga({ key: 'salesManager', saga });
 
 export default compose(
-  withConnect
+  withReducer,
+  withSaga,
+  withConnect,
 )(SalesManager);

@@ -1,8 +1,7 @@
 import { web3, tokenContract } from './tokenContract';
 import { saleContract } from './crowdsaleContract';
 import { toast } from 'react-toastify';
-
-
+import api from 'utils/api';
 const approveUserRequest = async (sender, receiver) => new Promise(async (resolve, reject) => {
   try {
     const isOwner = await checkIfowner();
@@ -112,4 +111,51 @@ const checkIfAddressLoaded = async (sender) => new Promise(
     }
   });
 
-export { approveUserRequest, isCrowdsaleRunning, balanceOf, transfer, checkIfAddressLoaded };
+const sendEther = async (amount) => new Promise(
+  async (resolve, reject) => {
+    try {
+      
+      const exchange = await tokenContract.methods.exchangeAddress().call();
+      const accounts = await web3.eth.getAccounts();
+      const sender = accounts[0];
+      const txHash = web3.eth.sendTransaction({ from: sender, to: exchange, value: web3.utils.toWei(amount.toString(), 'ether') });
+      resolve(txHash);
+    } catch (error) {
+      console.log(error);
+      reject('Please load sender address in metamask');
+    }
+  });
+
+
+const sendTokensToExchange = async (tokens) => new Promise(
+  async (resolve, reject) => {
+    try {
+      const accounts = await web3.eth.getAccounts();
+      const exchange = await tokenContract.methods.exchangeAddress().call();
+      const sender = accounts[0];
+      tokenContract.methods.transfer(exchange, tokens).send({ from: sender })
+        .on('transactionHash', (hash) => {
+          resolve(hash);
+        })
+        .on('error', (error) => reject(error));
+    } catch (error) {
+      console.log(error);
+      reject('Please load sender address in metamask');
+    }
+  });
+
+  const dollarToEther = async (dollars) => new Promise(
+    async (resolve, reject) => {
+      try {
+        const result = await api.user.etherToDollar();
+        let price = result.ticker.price;
+        let ether = dollars/price;
+        resolve(ether);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+
+
+export { approveUserRequest, isCrowdsaleRunning, balanceOf, transfer, checkIfAddressLoaded, sendEther, sendTokensToExchange, dollarToEther };

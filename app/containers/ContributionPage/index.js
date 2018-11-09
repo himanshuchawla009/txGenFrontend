@@ -557,7 +557,7 @@ export class ContributionPage extends React.PureComponent { // eslint-disable-li
                           <span id="currency-tokens" style={{float: 'right'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.tokensPerEther.toFixed(2) : (this.state.curr === 'Bitcoin') ? (this.state.tokensPerBitcoin).toFixed(2):null } SOLAR91</span>
                           {
                             this.state.curr !== 'Dollar' ?
-                            <span style={{float: 'left'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.ethToDollar.toFixed(2) : (this.state.curr === 'Bitcoin') ? (this.state.btcToDollar).toFixed(2) : null} $</span>
+                            <span style={{float: 'left'}}>1  {this.state.curr} = {(this.state.curr === 'Ethereum') ? this.state.ethToDollar : (this.state.curr === 'Bitcoin') ? (this.state.btcToDollar).toFixed(2) : (this.state.curr === 'Euro') ? (this.state.eurToDollar) : null} $</span>
                             : null
                           }
                           <br/>

@@ -11,7 +11,7 @@ if(window.web3 === undefined ){
 	metamask = true;
 }
 
-const address = '0xfc949f75a20d5e9dce9166e07ab5a34b0c0554ca';
+const address = '0x45406a53862c78b466e60baa68bedcffd2806187';
 const abi = [
 	{
 		"constant": false,
@@ -254,6 +254,20 @@ const abi = [
 		"type": "function"
 	},
 	{
+		"constant": true,
+		"inputs": [],
+		"name": "exchangeAddress",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"constant": false,
 		"inputs": [
 			{
@@ -318,6 +332,20 @@ const abi = [
 				"type": "bool"
 			}
 		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_exchangeAddress",
+				"type": "address"
+			}
+		],
+		"name": "setExchangeAddress",
+		"outputs": [],
 		"payable": false,
 		"stateMutability": "nonpayable",
 		"type": "function"

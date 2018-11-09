@@ -17,23 +17,22 @@ import KycPage from 'containers/KycPage';
 import TicketPage from 'containers/TicketPage';
 import ContributionPage from 'containers/ContributionPage';
 import TransferManager from 'containers/TransferManager';
-import SalesManager from 'containers/SalesManager';
 import SecurityPage from 'containers/SecurityPage';
 import ResetPassword from 'containers/ResetPassword';
 import ProfilePage from 'containers/ProfilePage';
 import SideBarNav from 'containers/SideBarNav';
+import Test from 'containers/Test';
 import CustomLoading from 'components/CustomLoading/Loadable';
 import { ToastContainer, toast } from 'react-toastify';
 import { makeGlobalParent } from 'containers/App/selectors';
 import { loadProfileAction, submitSocial, resetKycDone } from './actions';
-import makeSelectDashBoardWelcomePage, { makeSelectKycDone }from './selectors';
+import makeSelectDashBoardWelcomePage, { makeSelectKycDone } from './selectors';
 import SupportPage from 'containers/Support';
-import { resetSuccess } from '../KycPage/actions';
-import $ from 'jquery'
-
+import $ from 'jquery';
 import reducer from './reducer';
 import saga from './saga';
 import Web3 from 'web3';
+import SalesManager from '../SalesManager';
 
 const ABI = require('./CrowdSale');
 const initialState={

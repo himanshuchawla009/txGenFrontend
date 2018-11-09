@@ -32,7 +32,7 @@ const initialState = fromJS({
     }
   },
   kycDone: false,
-  ethAddress: 'dkdkdjd'
+  ethAddress: ''
 });
 
 function dashBoardWelcomePageReducer(state = initialState, action) {

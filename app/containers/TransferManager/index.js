@@ -157,7 +157,7 @@ export class TransferManager extends React.Component { // eslint-disable-line re
     console.log(address);
     const data = {};
     if (address.match(/^0x[a-fA-F0-9]{40}$/)) {
-      data.senderAddress = '0x26223710da79470abec3dbc3ac8bc64d38f3cd61';
+      data.senderAddress = this.props.userInfo.ethAddress;
       data.receiverAddress = address;
       this.props.createRequest(data);
       this.setState({
