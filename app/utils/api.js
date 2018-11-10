@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createRequest } from '../containers/TransferManager/actions';
-// const BaseUrl = 'http://139.59.88.76:5010/api/v1/';
-const BaseUrl = 'http://localhost:5010/api/v1/';
+const BaseUrl = 'http://139.59.88.76:5010/api/v1/';
+//const BaseUrl = 'http://localhost:5010/api/v1/';
 // const BaseUrl = 'https://tokensaleapis.zineum.io/api/v1/';
 
 export default {
