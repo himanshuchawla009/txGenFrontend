@@ -90,10 +90,10 @@ export default {
       axios.get(`${BaseUrl}user/tradeRequest`, headers)
         .then((res) => res.data).catch((err) => err.response.data),
     userBuyRequests: (headers) =>
-      axios.get(`${BaseUrl}/admin/buyRequests`, headers)
+      axios.get(`${BaseUrl}admin/buyRequests`, headers)
         .then((res) => res.data).catch((err) => err.response.data),
     userSellRequests: (headers) =>
-      axios.get(`${BaseUrl}/admin/sellRequests`, headers)
+      axios.get(`${BaseUrl}admin/sellRequests`, headers)
         .then((res) => res.data).catch((err) => err.response.data),
 
     etherToDollar: () =>
