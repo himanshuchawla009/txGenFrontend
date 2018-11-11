@@ -232,6 +232,7 @@
     "mime": "1.6.0",
     "minimist": "1.2.0",
     "moment": "^2.22.2",
+    "nocache": "2.0.0",
     "postcss-filter-plugins": "2.0.3",
     "prop-types": "15.5.10",
     "qrcode.react": "^0.8.0",
