@@ -221,55 +221,15 @@ export class SideBarNav extends React.PureComponent { // eslint-disable-line rea
                 <li className="nav-sub-header"><Link to="/dashboard/contribution" role="button" onClick={this.toggleContriActive}><span>Contribution</span></Link></li>
               </ul>
             </li> */}
-            <li className={this.state.contAct}><Link to="/dashboard/contribution" role="button" onClick={this.toggleContriActive} ><span className="has-icon"><i className="fa fa-money"></i></span><span>Contribution</span></Link>
-              <ul className="nav nav-sub sidebar-niceScroll">
-                <li className="nav-sub-header"><Link to="/dashboard/contribution" role="button" onClick={this.toggleContriActive}><span>Contribution</span></Link></li>
-              </ul>
-            </li>
-            <li className={this.state.tranAct}><Link to="/dashboard/transactionHistory" role="button" onClick={this.toggleTranActive}><span className="has-icon"><i className="fa fa-history"></i></span><span>Transaction History</span></Link>
-              <ul className="nav nav-sub sidebar-niceScroll">
-                <li className="nav-sub-header"><Link to="/dashboard/transactionHistory" role="button" onClick={this.toggleTranActive} ><span>Transaction History</span></Link></li>
-              </ul>
-            </li>
-            <li className={this.state.ticketAct}><Link to="/dashboard/ticket" role="button" onClick={this.toggleTicketActive}><span className="has-icon"><i className="fa fa-ticket"></i></span><span>Manage Tickets</span></Link>
-              <ul className="nav nav-sub sidebar-niceScroll">
-                <li className="nav-sub-header"><Link to="/dashboard/ticket" role="button" onClick={this.toggleTicketActive}><span>Manage Tickets</span></Link></li>
-              </ul>
-            </li>
+
             <li className={this.state.secAct}><Link to="/dashboard/security" role="button" onClick={this.toggleSecActive}><span className="has-icon"><i className="fa fa-lock"></i></span><span>Security</span></Link>
               <ul className="nav nav-sub sidebar-niceScroll">
                 <li className="nav-sub-header"><Link to="/dashboard/security" role="button" onClick={this.toggleSecActive}><span>Security</span></Link></li>
               </ul>
             </li>
-            <li className={this.state.transferAct}><Link to="/dashboard/transferManager" role="button" onClick={this.toggleTransferActive}><span className="has-icon"><i className="fa fa-lock"></i></span><span>Transfer Manager</span></Link>
-              <ul className="nav nav-sub sidebar-niceScroll">
-                <li className="nav-sub-header"><Link to="/dashboard/transferManager" role="button" onClick={this.toggleTransferActive}><span>Transfer Manager</span></Link></li>
-              </ul>
-            </li>
-            {/* Sales Manager Start */}
-            <li>
-              <Link
-                className={this.state.salesAct}
-                to="/dashboard/salesManager"
-                role="button"
-                onClick={this.toggleSalesActive}>
-                <span className="has-icon">
-                  <i className="fa fa-lock"></i>
-                </span>
-                <span>Sales Manager</span>
-              </Link>
-              <ul className="nav nav-sub sidebar-niceScroll">
-                <li className="nav-sub-header">
-                  <Link
-                    to="/dashboard/salesManager"
-                    role="button"
-                    onClick={this.toggleSalesActive}
-                  >
-                    <span>Sales Manager</span>
-                  </Link>
-                </li>
-              </ul>
-            </li>
+
+
+
             {/* Sales Manager End */}
             {/* <li className={this.state.supportAct}><Link to="/dashboard/support" role="button" onClick={this.toggleSupportActive}><span className="has-icon"><i className="fa fa-life-ring"></i></span><span>Support</span></Link>
               <ul className="nav nav-sub sidebar-niceScroll">

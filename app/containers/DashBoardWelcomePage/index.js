@@ -12,11 +12,9 @@ import Balance from 'components/Balance/Loadable';
 import Refer from 'components/Refer/Loadable';
 import KycAlert from 'components/KycAlert/Loadable';
 import NavBarContainer from 'containers/NavBarContainer';
-import TransactionHistory from 'containers/TransactionHistory';
+
 import KycPage from 'containers/KycPage';
-import TicketPage from 'containers/TicketPage';
-import ContributionPage from 'containers/ContributionPage';
-import TransferManager from 'containers/TransferManager';
+
 import SecurityPage from 'containers/SecurityPage';
 import ResetPassword from 'containers/ResetPassword';
 import ProfilePage from 'containers/ProfilePage';
@@ -27,12 +25,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import { makeGlobalParent } from 'containers/App/selectors';
 import { loadProfileAction, submitSocial, resetKycDone } from './actions';
 import makeSelectDashBoardWelcomePage, { makeSelectKycDone } from './selectors';
-import SupportPage from 'containers/Support';
 import $ from 'jquery';
 import reducer from './reducer';
 import saga from './saga';
 import Web3 from 'web3';
-import SalesManager from '../SalesManager';
+
 
 const ABI = require('./CrowdSale');
 const initialState={
@@ -116,171 +113,60 @@ export class DashBoardWelcomePage extends React.PureComponent {
     console.log('dashboard');
     if (this.props.location.pathname == '/dashboard') {
       this.setState({
-        dash: 'active',
-        cont: '',
-        kyc: '',
-        tran: '',
-        sec: '',
-        support: '',
-        ticket: '',
-        faq: '',
-        profile: '',
-        resetPass: '',
-        transfer:'',
-        sales: ''
+        dash: 'active', ...initialState
       });
     } else if (this.props.location.pathname == '/dashboard/contribution') {
       this.setState({
-        dash: '',
-        cont: 'active',
-        kyc: '',
-        tran: '',
-        sec: '',
-        support: '',
-        ticket: '',
-        faq: '',
-        profile: '',
-        resetPass: '',
-        transfer:'',
-        sales: ''
+      ...initialState,
+        cont: 'active'
       });
     } else if (this.props.location.pathname == '/dashboard/kyc') {
       this.setState({
-        dash: '',
-        cont: '',
         kyc: 'active',
-        tran: '',
-        sec: '',
-        support: '',
-        ticket: '',
-        faq: '',
-        profile: '',
-        resetPass: '',
-        transfer:'',
-        sales: ''
+        ...initialState
       });
     } else if (this.props.location.pathname == '/dashboard/transactionHistory') {
       this.setState({
-        dash: '',
-        cont: '',
-        kyc: '',
-        tran: 'active',
-        sec: '',
-        support: '',
-        ticket: '',
-        faq: '',
-        profile: '',
-        resetPass: '',
-        transfer:'',
-        sales: ''
+        ...initialState,
+        tran: 'active'
       });
     } else if (this.props.location.pathname == '/dashboard/security') {
       this.setState({
-        dash: '',
-        cont: '',
-        kyc: '',
-        tran: '',
+        ...initialState,
         sec: 'active',
-        support: '',
-        ticket: '',
-        faq: '',
-        profile: '',
-        resetPass: '',
-        transfer:'',
-        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/ticket') {
       this.setState({
-        dash: '',
-        cont: '',
-        kyc: '',
-        tran: '',
-        sec: '',
-        support: '',
-        faq: '',
         ticket: 'active',
-        profile: '',
-        resetPass: '',
-        transfer:'',
-        sales: ''
+          ...initialState
       });
     } else if (this.props.location.pathname == '/dashboard/support') {
       this.setState({
-        dash: '',
-        cont: '',
-        kyc: '',
-        tran: '',
-        sec: '',
+        ...initialState,
         support: 'active',
-        ticket: '',
-        faq: '',
-        profile: '',
-        resetPass: '',
-        transfer:'',
-        sales: ''
       });
     } else if (this.props.location.pathname == '/dashboard/faq') {
       this.setState({
-        dash: '',
-        cont: '',
-        kyc: '',
-        tran: '',
-        sec: '',
-        support: '',
-        ticket: '',
         faq: 'active',
-        profile: '',
-        resetPass: '',
-        transfer:'',
-        sales: ''
+          ...initialState
       });
     } else if (this.props.location.pathname == '/dashboard/profile') {
       this.setState({
-        dash: '',
-        cont: '',
-        kyc: '',
-        tran: '',
-        sec: '',
-        support: '',
-        faq: '',
-        ticket: '',
-        profile: 'active',
-        resetPass: '',
-        transfer:'',
-        sales: ''
+        ...initialState,
+        profile: 'active'
       });
     }
     else if (this.props.location.pathname == '/dashboard/transferManager') {
       this.setState({
-        dash: '',
-        cont: '',
-        kyc: '',
-        tran: '',
-        sec: '',
-        support: '',
-        faq: '',
-        ticket: '',
-        profile: '',
-        resetPass: '',
+        ...initialState,
         transfer:'active',
-        sales: ''
       });
     }
     else if (this.props.location.pathname == '/dashboard/salesManager') {
       console.log("sales active call");
       this.setState({
         sales:'active',
-        dash: '',
-        cont: '',
-        kyc: '',
-        tran: '',
-        sec: '',
-        support: '',
-        faq: '',
-        ticket: '',
-        profile: '',
-        resetPass: '',
-        transfer:''
+        ...initialState
       });
     }
   }
@@ -529,17 +415,14 @@ export class DashBoardWelcomePage extends React.PureComponent {
             webCompact={this.webScreenCompact}
             dashAct={this.state.dashAct}
             toggleDashActive={this.toggleDashActive}
-            toggleContActive={this.toggleContActive}
+
             toggleKycActive={this.toggleKycActive}
             toggleSecActive={this.toggleSecActive}
-            toggleTranActive={this.toggleTranActive}
-            toggleSupportActive={this.toggleSupportActive}
+
             toggleFaqActive={this.toggleFaqActive}
             toggleProfileActive={this.toggleProfileActive}
             toggleResetPassActive={this.toggleResetPassActive}
-            toggleTicketActive={this.toggleTicketActive}
-            toggleTransferActive={this.toggleTransferActive}
-            toggleSalesActive={this.toggleSalesActive}
+
           />
           {(this.props.location.pathname == '/dashboard') ?
              <div id="content" className="ui-content ui-content-aside-overlay">
@@ -570,8 +453,6 @@ export class DashBoardWelcomePage extends React.PureComponent {
                 </div> :
                   (this.props.location.pathname == '/dashboard/contribution') ?
                   <ContributionPage /> :
-                  (this.props.location.pathname == '/dashboard/transferManager') ?
-                  <TransferManager /> :
                   (this.props.location.pathname == '/dashboard/salesManager') ?
                   <SalesManager /> :
                   (this.props.location.pathname == '/dashboard/support') ?
@@ -582,8 +463,6 @@ export class DashBoardWelcomePage extends React.PureComponent {
                   <TicketPage /> :
                   (this.props.location.pathname == '/dashboard/kyc') ?
                     <KycPage dashActive={this.toggleDashActive} kycActive={this.toggleKycActive}/> :
-                  (this.props.location.pathname == '/dashboard/transactionHistory') ?
-                    <TransactionHistory message={this.props.global.depositSuccess} /> :
 '' }
           <div id="footer" className="ui-footer">© 2018 Fraction0x, All Rights Reserved</div>
           <div className="sticky-telegram-logo"><a href=" https://t.me/zineumofficial" className="sticky-telegram-icon" target="_blank">Telegram</a></div>

@@ -22,7 +22,6 @@ import RedirectPage from 'containers/RedirectPage';
 import ForgotPassword from 'containers/ForgotPassword';
 import ResetPassword from 'containers/ResetPasswordOuter/Loadable';
 import Loading from 'containers/Loading/Loadable';
-import TransactionHistory from 'containers/TransactionHistory/Loadable';
 import ResendConfirmationPage from 'containers/ResendConfirmationPage/Loadable';
 
 export default function App() {
@@ -36,7 +35,6 @@ export default function App() {
         <Route path="/resetPassword/forgot/:token" component={ResetPassword} />
         <Route path="/forgotPassword" component={ForgotPassword} />
         <Route path="/resendConfirmation" component={ResendConfirmationPage} />
-        <Route path="/transactionHistory" component={TransactionHistory} />
         <Route path="/signin/verify/:token" component={Loading} />
         <Route path="/signup/refer/:token" component={RegisterPage} />
         <Route component={NotFoundPage} />
