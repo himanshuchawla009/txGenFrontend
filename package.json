@@ -1,16 +1,16 @@
 {
-  "name": "fraction0x-ico-user-dashboard",
-  "version": "3.5.0",
-  "description": "fraction0x ico user dashboard",
+  "name": "txgenerator",
+  "version": "1.0.0",
+  "description": "",
   "repository": {
     "type": "git",
-    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
+    "url": "https://github.com/himanshuchawla009/txGenFrontend.git"
   },
   "engines": {
     "npm": ">=3",
     "node": ">=5"
   },
-  "author": "Himanshu Mehta",
+  "author": "Himanshu Chawla",
   "license": "MIT",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
