@@ -13,30 +13,27 @@
 
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import styled from 'styled-components';
 
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
-import LoginPage from 'containers/LoginPage/Loadable';
-import RegisterPage from 'containers/RegisterPage/Loadable';
-import DashBoardWelcomePage from 'containers/DashBoardWelcomePage/Loadable';
-import RedirectPage from 'containers/RedirectPage';
-import ForgotPassword from 'containers/ForgotPassword';
-import ResetPassword from 'containers/ResetPasswordOuter/Loadable';
-import Loading from 'containers/Loading/Loadable';
-import ResendConfirmationPage from 'containers/ResendConfirmationPage/Loadable';
+import MainPage from 'containers/MainPage/Loadable';
+
+const AppWrapper = styled.div`
+  margin: 20 auto;
+  display: flex;
+  min-height: 100%;
+  padding: 20px 16px;
+  flex-direction: column;
+
+`;
+
 
 export default function App() {
   return (
-    <div>
+    <div style={{margin:'20 auto',display:'flex',minHeight:'100%',padding:'20px 16px',flexDirection:'column'}}>
+
       <Switch>
-        <Route exact path="/" component={RedirectPage} />
-        <Route exact path="/signin" component={LoginPage} />
-        <Route exact path="/signup" component={RegisterPage} />
-        <Route path="/dashboard" component={DashBoardWelcomePage} />
-        <Route path="/resetPassword/forgot/:token" component={ResetPassword} />
-        <Route path="/forgotPassword" component={ForgotPassword} />
-        <Route path="/resendConfirmation" component={ResendConfirmationPage} />
-        <Route path="/signin/verify/:token" component={Loading} />
-        <Route path="/signup/refer/:token" component={RegisterPage} />
+        <Route exact path="/" component={MainPage} />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

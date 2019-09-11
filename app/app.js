@@ -15,13 +15,9 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 // import 'sanitize.css/sanitize.css';
-import "bootstrap/dist/css/bootstrap.css";
-// import 'semantic-ui-css/semantic.min.css'
+import 'semantic-ui-css/semantic.min.css'
 
-// Import Semantic UI CSS
-// import 'semantic-ui-css/semantic.min.css';
-
-import 'styles/style.scss'
+import { toast } from 'react-toastify';
 
 // Import root app
 import App from 'containers/App';
@@ -49,6 +45,7 @@ import { translationMessages } from './i18n';
 
 // Import CSS reset and Global Styles
 import './global-styles';
+
 
 // Create redux store with history
 const initialState = {};

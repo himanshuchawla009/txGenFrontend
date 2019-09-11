@@ -4,24 +4,28 @@
 *
 */
 
-import React from 'react';
+import React,{Component} from 'react';
 // import styled from 'styled-components';
+import { Dimmer, Loader, Image, Segment } from 'semantic-ui-react'
 
 
-class CustomLoading extends React.Component { // eslint-disable-line react/prefer-stateless-function
-  render() {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'fixed', width: '100%', height: '100%', background: '#fff', zIndex: '99999', overflow: 'hidden' }}>
-        <div className="img-box-mix text-center">
-          <img src="/assets/img/loader.svg" alt="loading"/>
-        </div>
-      </div>
-    );
-  }
-}
 
-CustomLoading.propTypes = {
 
+ class CustomLoading extends Component {
+   
+
+    render() {
+     
+      return  (
+     <Segment>
+        <Dimmer active inverted>
+          <Loader size='large'>Loading</Loader>
+        </Dimmer>
+  
+        <Image src='https://react.semantic-ui.com/images/wireframe/paragraph.png' />
+      </Segment>
+      )
 };
+ }
 
 export default CustomLoading;
