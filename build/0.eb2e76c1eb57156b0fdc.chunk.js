@@ -637,7 +637,7 @@ var axios_default = /*#__PURE__*/__webpack_require__.n(axios);
 
 
 
-var BaseUrl = 'http://localhost:4000/api/v1/';
+var BaseUrl = 'http://13.251.18.66:4000/api/v1/';
 
 /* harmony default export */ var api = ({
 
@@ -22139,7 +22139,7 @@ function FormGenerator(props) {
       }, void 0, field.propertyName), FormGenerator__jsx('input', {
         type: 'number',
         min: '1',
-        max: '5',
+        max: '100000000',
         id: field.propertyName,
         required: true,
         onChange: props.onChange

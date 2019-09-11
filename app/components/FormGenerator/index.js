@@ -22,7 +22,7 @@ function FormGenerator(props) {
                 return(
                     <Form.Field>
                     <Label pointing='below'>{field.propertyName}</Label>
-                    <input type='number' min="1" max="5" id={field.propertyName} required onChange={props.onChange}/>
+                    <input type='number' min="1" max="100000000" id={field.propertyName} required onChange={props.onChange}/>
                   </Form.Field>
                 )
                  } else if(field.datatype === 'string') {
