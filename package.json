@@ -228,7 +228,7 @@
     "invariant": "2.2.2",
     "ip": "1.1.5",
     "libphonenumber-js": "^1.2.21",
-    "lodash": "4.17.10",
+    "lodash": "4.17.21",
     "mime": "1.6.0",
     "minimist": "1.2.0",
     "moment": "^2.22.2",
