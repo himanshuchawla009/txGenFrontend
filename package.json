@@ -231,7 +231,7 @@
     "lodash": "4.17.10",
     "mime": "1.6.0",
     "minimist": "1.2.0",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "nocache": "2.0.0",
     "postcss-filter-plugins": "2.0.3",
     "prop-types": "15.5.10",
